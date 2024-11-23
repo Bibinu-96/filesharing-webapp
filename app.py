@@ -1,11 +1,33 @@
+import argparse
+
 from flask import Flask, request, send_from_directory, render_template, jsonify
 import os
 from threading import Lock
 import socket
 import psutil
 
+
+# Function to get the upload folder from CLI
+def get_upload_folder():
+    parser = argparse.ArgumentParser(description="Set the upload folder")
+    parser.add_argument('--path', type=str, help='Directory to save uploaded files', required=True)
+    args = parser.parse_args()
+
+    upload_folder = args.path
+
+    # Check if the folder exists
+    if not os.path.isdir(upload_folder):
+        print(f"Folder '{upload_folder}' does not exist. Please provide a valid folder.")
+        exit(1)
+
+    # Ensure the folder exists
+    os.makedirs(upload_folder, exist_ok=True)
+    return upload_folder
+
+
 app = Flask(__name__)
-UPLOAD_FOLDER = 'uploads'
+# Get the upload folder from CLI
+UPLOAD_FOLDER = get_upload_folder()
 CHUNK_SIZE = 10 * 1024 * 1024  # 10MB
 
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
