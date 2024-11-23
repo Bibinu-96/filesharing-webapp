@@ -120,7 +120,7 @@ async function fetchIPs() {
 
         data.ips.forEach((ip) => {
             const listItem = document.createElement('li');
-            listItem.textContent = ` ${ip.ip}`;
+            listItem.textContent = ` ${ip.ip}:8080`;
             ipList.appendChild(listItem);
         });
     } catch (error) {
