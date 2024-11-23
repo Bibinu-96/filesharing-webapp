@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Transfer Server</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>File Upload & Download Server</h1>
+
+        <!-- IP Section -->
+        <div class="ip-section">
+            <h2>Network Interfaces</h2>
+            <ul id="ipList"></ul>
+        </div>
+
+        <!-- Upload Section -->
+        <div class="upload-section">
+            <h2>Upload File</h2>
+            <input type="file" id="fileInput">
+            <button onclick="uploadFile()">Upload</button>
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+
+        <!-- Download Section -->
+        <div class="download-section">
+            <h2>Download File</h2>
+            <input type="text" id="fileName" placeholder="Enter filename to download">
+            <a id="downloadLink">Download</a>
+        </div>
+
+        <!-- Available Files Section -->
+        <div class="available-files-section">
+            <h2>Available Files</h2>
+            <ul id="fileList"></ul>
+        </div>
+    </div>
+    <script src="/static/app.js"></script>
+</body>
+</html>
