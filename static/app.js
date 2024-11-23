@@ -1,19 +1,25 @@
-async function uploadFile() {
+ async function uploadFile() {
     const fileInput = document.getElementById('fileInput');
     const progressBar = document.getElementById('progressBar');
+    const progressBarDeterminate = progressBar.querySelector('.determinate');
+    const progressPercent = document.getElementById('progressPercent');
+    //const progressTextContent= document.getElementById('progressPercent')
+
     if (!fileInput.files.length) {
-        alert("Please select a file to upload.");
+        M.toast({ html: "Please select a file to upload." });
         return;
     }
 
     const file = fileInput.files[0];
-    const chunkSize = 10 * 1024 * 1024; // 10MB
+    const chunkSize = 10 * 1024 * 1024; // 10MB chunks
     const totalChunks = Math.ceil(file.size / chunkSize);
     let uploadedChunks = 0;
 
+    // Display the progress bar
     progressBar.style.display = 'block';
-    progressBar.innerHTML = `<div class="progress-bar-inner"></div>`;
-    const progressBarInner = progressBar.querySelector('.progress-bar-inner');
+    progressBar.style.height='20px';
+    progressBarDeterminate.style.width = '0%';
+    progressPercent.textContent = '0%';  // Initialize percentage at 0%
 
     for (let start = 0; start < file.size; start += chunkSize) {
         const chunk = file.slice(start, start + chunkSize);
@@ -22,24 +28,38 @@ async function uploadFile() {
         formData.append('file', chunk, file.name);
 
         try {
+            // Upload each chunk
             await fetch('/upload', {
                 method: 'POST',
-                body: formData
+                body: formData,
             });
 
             uploadedChunks++;
             const progress = Math.round((uploadedChunks / totalChunks) * 100);
-            progressBarInner.style.width = `${progress}%`;
+
+            // Update the progress bar width and percentage text
+            progressBarDeterminate.style.width = `${progress}%`;
+            progressPercent.textContent = `${progress}%`;  // Update percentage inside the progress bar
         } catch (error) {
-            alert(`Error uploading chunk: ${error.message}`);
+            M.toast({ html: `Error uploading chunk: ${error.message}` });
+            progressBar.style.display = 'none'; // Hide the progress bar in case of an error
             return;
         }
     }
 
-    alert('File uploaded successfully!');
+    // Hide the progress bar and reset it after upload completion
+    M.toast({ html: 'File uploaded successfully!' });
     progressBar.style.display = 'none';
-    fetchFileList(); // Refresh the available files list after upload
+    progressBar.style.height='0px';
+    progressBarDeterminate.style.width = '0%';
+    progressPercent.textContent = '0%'; // Reset the percentage text
+
+    // Refresh the file list after upload
+    fetchFileList();
 }
+
+
+
 
 function setupDownload() {
     const fileNameInput = document.getElementById('fileName');
