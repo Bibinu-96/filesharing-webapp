@@ -19,7 +19,7 @@ Web browser for interacting with the file server.
 
 Install Dependencies:
 
-pip install -r requirements.txt
+pip install -r requirement.txt
 
 Start the Server:
 python app.py
