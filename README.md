@@ -16,3 +16,16 @@ Laptop to host the server (This can be any computer with Python installed).
 Python 3 and Flask installed on the server machine.
 Devices connected to the same local WiFi network to upload and download files.
 Web browser for interacting with the file server.
+
+Install Dependencies:
+
+pip install -r requirements.txt
+
+Start the Server:
+python app.py
+
+Convert this to binary:
+pip install pyinstaller
+pyinstaller --onefile --add-data "static:static" --add-data "templates:templates" app.py
+
+
