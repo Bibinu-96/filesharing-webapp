@@ -7,4 +7,4 @@ services:
       - "5000:5000"
     volumes:
       - /host/folder:/container/folder
-    entrypoint: ["python", "main.py","--path", "path"]
+    entrypoint: ["python", "main.py","--path", "/container/folder"]
